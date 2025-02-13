@@ -5,19 +5,19 @@ const jwtSecret = process.env.JWT_SECRET;
 
 // Gerando token de usuário
 const generateToken = (id) => {
-    return jwt.sign({ id }, jwtSecret,{
+    return jwt.sign({ id }, jwtSecret, {
         expiresIn: "7d"
     });
 };
 
 // Registrando usuário e logando
-const register = async(req, res) => {
-    
-    const {nome, email, senha} = req.body
-    const user = await User.findOne({email})
+const register = async (req, res) => {
 
-    if(user){
-        res.status(422).json({errors: ["Já existe uma conta com este email"]});
+    const { nome, email, senha } = req.body
+    const user = await User.findOne({ email })
+
+    if (user) {
+        res.status(422).json({ errors: ["Já existe uma conta com este email"] });
         return
     }
 
@@ -31,8 +31,8 @@ const register = async(req, res) => {
         senha: senhaHash
     })
 
-    if(!newUser){
-        res.status(422).json({errors: ["Houve um erro, por favor tente novamente."]});
+    if (!newUser) {
+        res.status(422).json({ errors: ["Houve um erro, por favor tente novamente."] });
         return
     }
 
@@ -43,6 +43,30 @@ const register = async(req, res) => {
 
 };
 
+const login = async (req, res) => {
+
+    const { email, senha } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        res.status(404).json({ errors: ["Usuário não encontrado."] });
+        return
+    }
+
+    if (!(await bcrypt.compare(senha, user.senha))) {
+        res.status(422).json({ errors: ["Senha inválida"] })
+        return
+    }
+
+    res.status(201).json({
+        _id: user._id,
+        profileImage: user.profileImage,
+        token: generateToken(user._id),
+    })
+
+}
+
 module.exports = {
-    register
+    register,
+    login
 };

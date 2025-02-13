@@ -20,6 +20,14 @@ const userCreateValidation = () => {
     ];
 }
 
+const loginValidation = () => {
+    return [
+        body("email").isString().withMessage("Insira o e-mail").isEmail().withMessage("Insira um e-mail válido"),
+        body("senha").isString().withMessage("Insira a senha")
+    ]
+}
+
 module.exports = {
-    userCreateValidation
+    userCreateValidation,
+    loginValidation
 };
