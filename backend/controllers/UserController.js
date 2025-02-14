@@ -114,9 +114,31 @@ const update = async(req, res) => {
 
 }
 
+const getUserById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ errors: ["ID inválido"] });
+    }
+
+    try {
+        const user = await User.findById(id).select("-senha");
+
+        if (!user) {
+            return res.status(404).json({ errors: ["Usuário não encontrado"] });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+        res.status(500).json({ errors: ["Erro interno do servidor"] });
+    }
+};
+
 module.exports = {
     register,
     login,
     getCurrentUser,
-    update
+    update,
+    getUserById
 };
