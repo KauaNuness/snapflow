@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const jwtSecret = process.env.JWT_SECRET;
+const mongoose = require("mongoose");
 
 // Gerando token de usuário
 const generateToken = (id) => {
@@ -66,7 +68,55 @@ const login = async (req, res) => {
 
 }
 
+const getCurrentUser = async(req, res) => {
+    const user = req.user;
+
+    res.status(200).json(user);
+}
+
+const update = async(req, res) => {
+    
+    const {nome, senha, bio} = req.body
+
+    let profileImage = null
+
+    if(req.file) {
+        profileImage = req.file.filename
+    }
+
+    const reqUser = req.user
+
+    // Corrigido: usaremos 'new mongoose.Types.ObjectId'
+    const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id)).select("-senha")
+
+    if(nome) {
+        user.nome = nome
+    }
+
+    if(senha) {
+        const salt = await bcrypt.genSalt();
+        const senhaHash = await bcrypt.hash(senha, salt);
+
+        user.senha = senhaHash
+    }
+
+    if(profileImage){
+        user.profileImage = profileImage
+    }
+
+    if(bio){
+        user.bio = bio
+    }
+
+    await user.save()
+
+    res.status(200).json(user);
+
+}
+
 module.exports = {
     register,
-    login
+    login,
+    getCurrentUser,
+    update
 };

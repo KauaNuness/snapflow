@@ -8,7 +8,7 @@ const userCreateValidation = () => {
             .isEmail().withMessage("Coloque um e-mail válido"),
         body("senha")
             .isString().withMessage("A senha é obrigatória")
-            .isLength({ min: 8 }).withMessage("A senha precisa ter pelo menos 8 caracteres"),
+            .isLength({ min: 3 }).withMessage("A senha precisa ter pelo menos 3 caracteres"),
         body("confirmsenha")
             .isString().withMessage("A confirmação de senha é obrigatória")
             .custom((value, { req }) => {
@@ -27,7 +27,15 @@ const loginValidation = () => {
     ]
 }
 
+const userUpdateValidation = () =>{
+    return[
+        body("nome").optional().isLength({min:3}).withMessage("O nome precisa de pelo menos 3 caracteres"),
+        body("senha").optional().isLength({min: 5}).withMessage("A senha precisa ter no mínimo 5 caracteres"),
+    ]
+}
+
 module.exports = {
     userCreateValidation,
-    loginValidation
+    loginValidation,
+    userUpdateValidation,
 };
