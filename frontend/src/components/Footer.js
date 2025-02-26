@@ -2,7 +2,7 @@ import "./Footer.css";
 
 const Footer = () => {
     return <footer id="footer">
-        <p>SnapFlow &copy; 2025</p>
+        <p>Kauã Nunes - SnapFlow &copy; 2025</p>
     </footer>;
     
 }

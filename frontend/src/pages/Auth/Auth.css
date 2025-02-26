@@ -1,0 +1,53 @@
+#login,
+#register {
+    border: 1px solid #363636;
+    background-color: #111;
+    padding: 2em 2.5em;
+    max-width: 400px;
+    margin: 3em auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#login h2,
+#register h2 {
+    text-align: center;
+    font-size: 2.2em;
+    margin-top: 0;
+    color: #ffffff;
+}
+
+.subtitle {
+    font-weight: bold;
+    color: #bbbbbb;
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+#login form,
+#register form {
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+    border-bottom: 1px solid #444;
+}
+
+#login p,
+#register p {
+    text-align: center;
+    font-size: 1em;
+    color: #ddd;
+}
+
+#login p a,
+#register p a {
+    font-weight: bold;
+    color: #1e90ff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+#login p a:hover,
+#register p a:hover {
+    color: #63b3ff;
+}
